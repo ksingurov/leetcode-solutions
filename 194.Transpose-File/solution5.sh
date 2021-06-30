@@ -1,23 +1,26 @@
 # Script to transpose content of a txt file with bash (no awk)
+# Reads file just once into array
 
-# Count the number of words (columns) in the first line of the file
-columns=$(head -n 1 file.txt | wc -w)
+# Read the file into array
+lines=()
+while IFS= read -r line; do
+    lines+=("$line")
+done < file.txt
 
-# Loop over each column index (1 to number of columns)
-for i in $(seq "$columns"); do
+# Count the number of rows (number of elements in the array) and of columns (words in the first element)
+n_rows="${#lines[@]}"
+IFS=' ' read -r -a first_line <<< "${lines[0]}"
+n_columns=${#first_line[@]}
+
+# Loop over number of column (i.e. how many line needs to be printed)
+for ((col=0; col<n_columns; col++)); do
     # Initialize a variable to hold the output line
     line_to_print=""
-    while read -r -a line; do
-        # Index to 
-        index=$((i - 1))
-        # no space for the first value in the line to be printed
-        if [ -z "$line_to_print" ]; then
-            line_to_print="${line[$index]}"
-        # for the rest add space
-        else
-            line_to_print="$line_to_print ${line[$index]}"
-        fi
-    done < file.txt
-    # after composing a line print it
-    echo "$line_to_print"
+    # Loop over number of rows and append element from a given row to the output line
+    for ((row=0; row<n_rows; row++)); do
+        IFS=' ' read -r -a line_fields <<< "${lines[$row]}"
+        line_to_print="$line_to_print ${line_fields[$col]}"
+    done
+    # after composing a line trim it (first element is added with space in front) and print it
+    echo "${line_to_print# }"
 done
