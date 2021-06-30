@@ -1,3 +1,3 @@
-head -n 10 file.txt | tail -n 1
+line=$(head -n 10 file.txt | tail -n 1)
 
-tail -n +10 file.txt | head -n 1
+echo "$line"
