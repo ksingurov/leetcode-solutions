@@ -3,12 +3,12 @@ import re
 
 # function to validate provided pattern
 def is_valid_regex(pattern: str) -> bool:
-    print(f"[DEBUG] Testing pattern: {repr(pattern)}")
+    # print(f"[DEBUG] Testing pattern: {repr(pattern)}")
     try:
         re.compile(pattern)
         return True, "OK"
     except re.error as e:
-        print(f"[DEBUG] Regex error: {e}")
+        # print(f"[DEBUG] Regex error: {e}")
         return False, f"Invalid regex: {e}"
 
 # function which reads lines within a file and checks if they match provided pattern
@@ -19,7 +19,13 @@ def valid_phone_numbers(file_name: str, pattern: str) -> str:
 
 # entry-point
 if __name__ == "__main__":
-    # get parameters from command line
+    # check if enough argements were provided
+    if len(sys.argv) < 3:
+        inp = " ".join(sys.argv)
+        print(f"Error -> Not enough argements were provided: '{inp}'")
+        print(f"Usage: {sys.argv[0]} <file-name> <pattern>")
+        sys.exit(1)
+    # get arguments from command line
     file_name = sys.argv[1]
     pattern = sys.argv[2]
 
