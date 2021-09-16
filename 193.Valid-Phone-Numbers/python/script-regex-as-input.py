@@ -37,6 +37,9 @@ if __name__ == "__main__":
         print(f"Refer to regex syntax here: {regex_syntax_link}")
         sys.exit(1)
     
-    # pass parameters to the functions and print the result
-    res = valid_phone_numbers(file_name, pattern)
-    print(res)
+    try:
+        # pass parameters to the functions and print the result
+        res = valid_phone_numbers(file_name, pattern)
+        print(res)
+    except FileNotFoundError:
+        print(f"Error -> {file_name} doesn't exist")
