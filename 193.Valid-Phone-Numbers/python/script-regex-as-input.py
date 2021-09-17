@@ -1,6 +1,15 @@
 import sys
 import re
 
+# function to check if enought argements are provided
+def handle_input_argements(args: list[str]) -> tuple[str, str]:
+    if len(sys.argv) < 3:
+        inp = " ".join(sys.argv)
+        print(f"Error -> Not enough argements were provided: '{inp}'")
+        print(f"Usage: {sys.argv[0]} <file-name> <pattern>")
+        sys.exit(1)
+    return sys.argv[1], sys.argv[2]
+
 # function to validate provided pattern
 def is_valid_regex(pattern: str) -> bool:
     # print(f"[DEBUG] Testing pattern: {repr(pattern)}")
@@ -19,15 +28,8 @@ def valid_phone_numbers(file_name: str, pattern: str) -> str:
 
 # entry-point
 if __name__ == "__main__":
-    # check if enough argements were provided
-    if len(sys.argv) < 3:
-        inp = " ".join(sys.argv)
-        print(f"Error -> Not enough argements were provided: '{inp}'")
-        print(f"Usage: {sys.argv[0]} <file-name> <pattern>")
-        sys.exit(1)
-    # get arguments from command line
-    file_name = sys.argv[1]
-    pattern = sys.argv[2]
+    # handle input argement including
+    file_name, pattern = handle_input_argements(sys.argv)
 
     # check pattern
     is_valid, msg = is_valid_regex(pattern)
