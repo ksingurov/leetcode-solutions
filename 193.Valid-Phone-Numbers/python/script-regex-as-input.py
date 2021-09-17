@@ -12,13 +12,15 @@ def handle_input_argements(args: list[str]) -> tuple[str, str]:
 
 # function to validate provided pattern
 def is_valid_regex(pattern: str) -> bool:
-    # print(f"[DEBUG] Testing pattern: {repr(pattern)}")
     try:
         re.compile(pattern)
-        return True, "OK"
+        return True
     except re.error as e:
         # print(f"[DEBUG] Regex error: {e}")
-        return False, f"Invalid regex: {e}"
+        print(f"Error -> Invalid regex: {e}")
+        regex_syntax_link = "https://docs.python.org/3/library/re.html#regular-expression-syntax"
+        print(f"Refer to regex syntax here: {regex_syntax_link}")
+        return False
 
 # function which reads lines within a file and checks if they match provided pattern
 def valid_phone_numbers(file_name: str, pattern: str) -> str:
@@ -32,11 +34,7 @@ if __name__ == "__main__":
     file_name, pattern = handle_input_argements(sys.argv)
 
     # check pattern
-    is_valid, msg = is_valid_regex(pattern)
-    if not is_valid:
-        print(f"Error -> {msg}")
-        regex_syntax_link = "https://docs.python.org/3/library/re.html#regular-expression-syntax"
-        print(f"Refer to regex syntax here: {regex_syntax_link}")
+    if not is_valid_regex(pattern):
         sys.exit(1)
     
     try:
