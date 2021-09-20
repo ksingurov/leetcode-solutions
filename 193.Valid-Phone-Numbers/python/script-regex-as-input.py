@@ -2,13 +2,13 @@ import sys
 import re
 
 # function to check if enought argements are provided
-def handle_input_argements(args: list[str]) -> tuple[str, str]:
+def enough_input_argements(args: list[str]) -> bool:
     if len(sys.argv) < 3:
         inp = " ".join(sys.argv)
         print(f"Error -> Not enough argements were provided: '{inp}'")
         print(f"Usage: {sys.argv[0]} <file-name> <pattern>")
-        sys.exit(1)
-    return sys.argv[1], sys.argv[2]
+        return False
+    return True
 
 # function to validate provided pattern
 def is_valid_regex(pattern: str) -> bool:
@@ -30,8 +30,11 @@ def valid_phone_numbers(file_name: str, pattern: str) -> str:
 
 # entry-point
 if __name__ == "__main__":
-    # handle input argement including
-    file_name, pattern = handle_input_argements(sys.argv)
+    # handle input argement
+    if not enough_input_argements(sys.argv):
+        sys.exit(1)
+    file_name = sys.argv[1]
+    pattern = sys.argv[2]
 
     # check pattern
     if not is_valid_regex(pattern):
