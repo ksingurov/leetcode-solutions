@@ -1,48 +1,48 @@
 import sys
 import re
 
-# function to check if enought argements are provided
-def enough_input_argements(args: list[str]) -> bool:
-    if len(sys.argv) < 3:
-        inp = " ".join(sys.argv)
-        print(f"Error -> Not enough argements were provided: '{inp}'")
-        print(f"Usage: {sys.argv[0]} <file-name> <pattern>")
-        return False
-    return True
-
 # function to validate provided pattern
-def is_valid_regex(pattern: str) -> bool:
+def is_valid_regex(pattern: str) -> bool | str:
     try:
         re.compile(pattern)
         return True
     except re.error as e:
-        # print(f"[DEBUG] Regex error: {e}")
-        print(f"Error -> Invalid regex: {e}")
         regex_syntax_link = "https://docs.python.org/3/library/re.html#regular-expression-syntax"
-        print(f"Refer to regex syntax here: {regex_syntax_link}")
-        return False
+        string_to_return = f"Error -> Invalid regex: {e}\nRefer to regex syntax here: {regex_syntax_link}"
+        return string_to_return
 
-# function which reads lines within a file and checks if they match provided pattern
-def valid_phone_numbers(file_name: str, pattern: str) -> str:
-    with open(file_name, "r") as file:
-        lines_to_print = [line.rstrip("\n") for line in file if re.search(pattern, line)]
-    return "\n".join(lines_to_print)
+def get_phone_numbers(file_name: str) -> list[str] | None:
+    try:
+        with open(file_name, "r") as file:
+            phone_numbers = [line.rstrip("\n") for line in file]
+        return phone_numbers
+    except FileNotFoundError:
+        return None
+
+def get_valid_phone_numbers(phone_numbers: list[str], pattern: str) -> list[str]:
+    return [pn for pn in phone_numbers if re.search(pattern, pn)]
 
 # entry-point
 if __name__ == "__main__":
     # handle input argement
-    if not enough_input_argements(sys.argv):
+    if len(sys.argv) < 3:
+        print(f"Error -> Missing argements\nUsage: {sys.argv[0]} <file-name> <pattern>")
         sys.exit(1)
     file_name = sys.argv[1]
     pattern = sys.argv[2]
 
     # check pattern
-    if not is_valid_regex(pattern):
+    check_regex = is_valid_regex(pattern)
+    if check_regex is not True:
+        print(check_regex)
         sys.exit(1)
-    
-    try:
-        # pass parameters to the functions and print the result
-        res = valid_phone_numbers(file_name, pattern)
-        print(res)
-    except FileNotFoundError:
-        print(f"Error -> {file_name} doesn't exist")
+
+    # get phone numbers tp process
+    phone_numbers = get_phone_numbers(file_name)
+    if not phone_numbers:
+        print(f"Error -> file {file_name} doesn't exist")
+        sys.exit()
+
+    # get valid phone numbers
+    valid_phone_numbers = get_valid_phone_numbers(phone_numbers, pattern)
+    print("\n".join(valid_phone_numbers))
