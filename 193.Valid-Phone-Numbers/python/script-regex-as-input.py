@@ -2,6 +2,7 @@ import sys
 import re
 
 # function to validate provided pattern
+# return message with error and info if pattern is invalid
 def is_valid_regex(pattern: str) -> bool | str:
     try:
         re.compile(pattern)
@@ -11,6 +12,8 @@ def is_valid_regex(pattern: str) -> bool | str:
         string_to_return = f"Error -> Invalid regex: {e}\nRefer to regex syntax here: {regex_syntax_link}"
         return string_to_return
 
+# function to return all phone numbers from the file
+# return None if file doesn't exists
 def get_phone_numbers(file_name: str) -> list[str] | None:
     try:
         with open(file_name, "r") as file:
@@ -19,11 +22,12 @@ def get_phone_numbers(file_name: str) -> list[str] | None:
     except FileNotFoundError:
         return None
 
+# function to return valid phone numbers
 def get_valid_phone_numbers(phone_numbers: list[str], pattern: str) -> list[str]:
     return [pn for pn in phone_numbers if re.search(pattern, pn)]
 
-# entry-point
-if __name__ == "__main__":
+# main function
+def main():
     # handle input argement
     if len(sys.argv) < 3:
         print(f"Error -> Missing argements\nUsage: {sys.argv[0]} <file-name> <pattern>")
@@ -46,3 +50,7 @@ if __name__ == "__main__":
     # get valid phone numbers
     valid_phone_numbers = get_valid_phone_numbers(phone_numbers, pattern)
     print("\n".join(valid_phone_numbers))
+
+# entry-point
+if __name__ == "__main__":
+    main()
