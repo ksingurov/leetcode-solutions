@@ -1,9 +1,16 @@
 #!/usr/bin/perl
-# Usage: ./script.pl <pattern> <file-name>
+# Usage: ./script.pl <regex-pattern> <file-name>
 
-# my $pattern = '^(\(\d{3}\) |\d{3}-)\d{3}-\d{4}$';
 my $pattern = shift @ARGV;
+my $regex;
+eval {$regex = qr/$pattern/};
+if ($@) {
+    die "Invalid regex pattern: $@";
+    }
+
+# print "$pattern\n";
+# print $regex;
 
 while (<>) {
-    print if /$pattern/;
+    print if /$regex/;
 }
