@@ -4,6 +4,8 @@
 # loop of the lines of an input file
 # $. is a variable holding current line number
 while (<>) {
-    print if $. == 10;
-    last if $. == 10; # stops after tenth line
+    if ($. == 10) {
+        print;
+        last;
+    }
 }
