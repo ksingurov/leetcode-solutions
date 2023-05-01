@@ -1,3 +1,11 @@
+# Solition based on recursion and backtracking
+# Logic:
+# 1. Start with list containing an empty string.
+# 2. Recursively generate combinations by adding '(' or ')' based on:
+# - the difference of counts of left and right parentheses
+# - and, length of the current combinations
+# Combinations are generated until they reach the length of 2 * n.
+
 from typing import List
 
 class Solution:
