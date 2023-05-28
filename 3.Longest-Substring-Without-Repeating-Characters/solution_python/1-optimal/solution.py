@@ -14,24 +14,16 @@ class Solution:
         print("\nl_string: ", l_string)
         for i_right in range(l_string):
             i += 1 # cycle counter
-            print(f"cycle: {i} |          | left: {i_left} | right: {i_right} | checking: {s[i_left: i_right + 1]}")
+            print(f"cycle: {i} |          | left: {i_left} | right: {i_right} | checking: {' ' * i_left}{s[i_left: i_right + 1]}")
             j = 0 # while counter
             while s[i_right] in seen_letters:
                 j += 1 # while counter
                 seen_letters.remove(s[i_left])
                 i_left += 1
-                print(f"cycle: {i} | while: {j} | left: {i_left} | right: {i_right} | checking: {s[i_left: i_right + 1]}")
+                print(f"cycle: {i} | while: {j} | left: {i_left} | right: {i_right} | checking: {' ' * i_left}{s[i_left: i_right + 1]}")
             if l_string - i_left <= l_max:
                 break
             seen_letters.add(s[i_right])
             l_max = max(l_max, i_right - i_left + 1)
             
         return l_max
-
-
-
-# s = "abcdefef"
-s = "abcdefcdef"
-sol = Solution()
-res = sol.lengthOfLongestSubstring(s)
-print("max len: ", res, "\n")
