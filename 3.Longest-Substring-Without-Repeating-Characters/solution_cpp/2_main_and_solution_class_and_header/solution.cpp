@@ -1,6 +1,6 @@
 #include <unordered_set>
 #include <string>
-// #include <algorithm>
+#include <algorithm>
 #include "solution.h"
 
 int Solution::lengthOfLongestSubstring(const std::string& s) {
