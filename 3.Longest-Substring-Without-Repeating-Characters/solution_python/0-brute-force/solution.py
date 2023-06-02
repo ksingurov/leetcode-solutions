@@ -14,9 +14,3 @@ class Solution:
                     l_max = l_substring
                     break
         return l_max
-
-
-s = "abcabcbb"
-sol = Solution()
-res = sol.lengthOfLongestSubstring(s)
-print(res)
