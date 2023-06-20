@@ -13,3 +13,9 @@ class Solution:
                     break
         return p_substring
 
+
+if __name__ == "__main__":
+    sol = Solution()
+    s = "abba"
+    res = sol.longestPalindrome(s)
+    print(res)
