@@ -21,12 +21,14 @@ class TestSolution(unittest.TestCase):
             ("bbabbcbbaxbbabbcbbax", "abbcbba")
         ]
 
-        for inp, exp in test_data:
+        for i, (inp, exp) in enumerate(test_data):
             with self.subTest(inp=inp, exp=exp):
+                result = self.sol.longestPalindrome(inp)
+                print(f" - SUBTEST {i+1}: input={inp}, expected={exp}, result={result}")
                 if isinstance(exp, str):
-                    self.assertEqual(self.sol.longestPalindrome(inp), exp)
+                    self.assertEqual(result, exp)
                 else:
-                    self.assertIn(self.sol.longestPalindrome(inp), exp)
+                    self.assertIn(result, exp)
 
 if __name__ == "__main__":
     unittest.main()
