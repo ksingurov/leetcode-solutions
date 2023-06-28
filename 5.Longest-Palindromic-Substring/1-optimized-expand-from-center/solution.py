@@ -1,21 +1,28 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        l_string = len(s)
 
-        # small_palindromes = [] # elem: (len, i)
-        palindromes = {2: set(), 3: set()} # dict[int, set[int]]
-        for start in range(l_string - 2):
-            if s[start: start + 2] == s[start: start + 2][::-1]:
-                    # small_palindromes.append((2, start))
-                    palindromes[2].add(start)
+        small_palindromes = []
+        middle = len(s) // 2
+        i = middle
+        n = 0
+        while -1 < i < len(s):
+            # print(i)
             try:
-                if s[start: start + 3] == s[start: start + 3][::-1]:
-                    # small_palindromes.append((3, start))
-                    palindromes[3].add(start)
+                if s[i] == s[i + 1]:
+                    # small_palindromes.append(('even', i))
+                    small_palindromes.append((0, i))
             except:
                 pass
+            try:
+                if s[i - 1] == s[i + 1]:
+                    # small_palindromes.append(('odd', i,))
+                    small_palindromes.append((1, i,))
+            except:
+                pass
+            n += 1
+            i = middle + (-1)**(n + 1) * ((n + 1) // 2)
 
-        return palindromes
+        return small_palindromes
 
 
 s = "babad"
