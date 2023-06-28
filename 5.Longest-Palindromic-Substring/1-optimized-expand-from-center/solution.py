@@ -5,7 +5,13 @@ class Solution:
         
         def len_p(a, b):
             return b - a + 1
-
+        
+        def max_possible_len(parity, i):
+            if i < len(s) / 2:
+                return 2 * (i + 1) - parity
+            else:
+                return 2 * (len(s) - i - 1) + parity
+            
         len_max = 1
         small_palindromes = []
         middle = len(s) // 2
@@ -28,8 +34,10 @@ class Solution:
             n += 1
             i = middle + (-1)**(n + 1) * ((n + 1) // 2)
 
-        # print(small_palindromes)
+        print(small_palindromes)
         for p in small_palindromes:
+            if max_possible_len(p[0], p[1]) < len_max:
+                break
             print(p)
             # d = 0 if p[0] == 'even' else 1 # odd/even
             parity = p[0]
@@ -41,7 +49,6 @@ class Solution:
                 j += 1
 
         return len_max
-
 
 # s = "babad"
 # s = "babab"
