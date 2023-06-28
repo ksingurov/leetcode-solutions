@@ -1,6 +1,12 @@
+from math import ceil
+
 class Solution:
     def longestPalindrome(self, s: str) -> str:
+        
+        def len_p(a, b):
+            return b - a + 1
 
+        len_max = 1
         small_palindromes = []
         middle = len(s) // 2
         i = middle
@@ -22,10 +28,28 @@ class Solution:
             n += 1
             i = middle + (-1)**(n + 1) * ((n + 1) // 2)
 
-        return small_palindromes
+        # print(small_palindromes)
+        for p in small_palindromes:
+            print(p)
+            # d = 0 if p[0] == 'even' else 1 # odd/even
+            parity = p[0]
+            j = 0
+            # print(p[1] - d - j, p[1] + 1 + j, s[p[1] - d - j], s[p[1] + 1 + j])
+            while p[1] - parity - j > -1 and p[1] + 1 + j < len(s) and s[p[1] - parity - j] == s[p[1] + 1 + j]:
+                len_max = max(len_max, len_p(p[1] - parity - j, p[1] + 1 + j))
+                # print(p[1], p[1] - d - j, p[1] + 1 + j)
+                j += 1
+
+        return len_max
 
 
-s = "babad"
+# s = "babad"
+# s = "babab"
+# s = "abba"
+# s = "abbcbba"
+# s = "abbcbbax"
+s = "bbabbcbbax"
+# s = "cbbd"
 sol = Solution()
 res = sol.longestPalindrome(s)
 print(res)
