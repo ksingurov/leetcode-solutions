@@ -6,6 +6,28 @@ class Solution:
         def max_possible_lenght(i):
             return 2 * (len(s) - i) - 1
 
+        def palindrome_lenght(i, parity):
+            i_left = i - parity
+            i_right = i + 1
+            while i_left - 1 > -1 and i_right + 1 < len(s) and s[i_left - 1] == s[i_right + 1]:
+                i_left -= 1
+                i_right += 1
+            return i_right - i_left + 1
+            
+        max_lenght = 1
+        middle = len(s) // 2
+        i = middle
+        n = 0
+        while -1 < i < len(s):
+            odd_palindrome_lenght = palindrome_lenght(i, 1)
+            even_palindrome_lenght = palindrome_lenght(i, 0)
+            print(f"i: {i} | odd: {odd_palindrome_lenght} | even: {even_palindrome_lenght}")
+            max_lenght = max(max_lenght, odd_palindrome_lenght, even_palindrome_lenght)
+            n += 1
+            i = middle + (-1)**(n + 1) * ((n + 1) // 2)
+
+        return max_lenght
+
 
 s = "babad"
 # s = "babab"
@@ -14,12 +36,6 @@ s = "babad"
 # s = "abbcbbax"
 # s = "bbabbcbbax"
 # s = "cbbd"
-
-
-def max_possible_lenght(i):
-            return 2 * (len(s) - i) - 1
-
-for i in range(len(s)):
-    # res = max_possible_len(i % 2, i) # v2
-    res = max_possible_lenght(i)
-    print(res)
+sol = Solution()
+res = sol.longestPalindrome(s)
+print(res)
