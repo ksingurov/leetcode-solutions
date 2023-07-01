@@ -7,12 +7,14 @@ class Solution:
             return 2 * (len(s) - i) - 1
 
         def palindrome_lenght(i, parity):
+            p_len = parity 
             i_left = i - parity
             i_right = i + 1
-            while i_left - 1 > -1 and i_right + 1 < len(s) and s[i_left - 1] == s[i_right + 1]:
+            while i_left > -1 and i_right < len(s) and s[i_left] == s[i_right]:
+                p_len += 2
                 i_left -= 1
                 i_right += 1
-            return i_right - i_left + 1
+            return p_len
             
         max_lenght = 1
         middle = len(s) // 2
