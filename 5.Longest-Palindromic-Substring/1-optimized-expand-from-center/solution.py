@@ -20,7 +20,8 @@ class Solution:
         middle = len(s) // 2
         i = middle
         n = 0
-        while -1 < i < len(s):
+        # while -1 < i < len(s): # version with no early stop
+        while -1 < i < len(s) and max_possible_lenght(i) > max_lenght: # version with early stop
             odd_palindrome_lenght = palindrome_lenght(i, 1)
             even_palindrome_lenght = palindrome_lenght(i, 0)
             print(f"i: {i} | odd: {odd_palindrome_lenght} | even: {even_palindrome_lenght}")
