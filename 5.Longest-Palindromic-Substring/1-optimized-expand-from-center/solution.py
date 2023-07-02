@@ -18,29 +18,16 @@ class Solution:
             return s1 if len(s1) > len(s2) else s2
             
         current_longest = ""
-        middle = len(s) // 2
+        middle = (len(s) - 1) // 2
         i = middle
         n = 0
-        print(middle)
         while -1 < i < len(s) and max_possible_lenght(i) > len(current_longest):
             odd_palindrome = palindrome(i, 1)
             even_palindrome = palindrome(i, 0)
-            print(f"i: {i} | odd: {odd_palindrome} | even: {even_palindrome}")
-            current_longest = longer_palindrome(odd_palindrome, even_palindrome)
+            new_longest = longer_palindrome(odd_palindrome, even_palindrome)
+            current_longest = longer_palindrome(current_longest, new_longest)
+            # print(f"i: {i} | odd: {odd_palindrome} | even: {even_palindrome} | longest: {current_longest}")
             n += 1
             i = middle + (-1)**(n + 1) * ((n + 1) // 2)
 
         return current_longest
-
-
-if __name__ == "__main__":    
-    # s = "babad"
-    # s = "babab"
-    s = "abba"
-    # s = "abbcbba"
-    # s = "abbcbbax"
-    # s = "bbabbcbbax"
-    # s = "cbbd"
-    sol = Solution()
-    res = sol.longestPalindrome(s)
-    print(res, res == s)
