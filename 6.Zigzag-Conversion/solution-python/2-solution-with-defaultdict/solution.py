@@ -6,8 +6,10 @@ from collections import defaultdict
 
 class Solution:
     def convert(self, s: str, numRows: int) -> str:
-        zigzag = defaultdict(list)
+        if numRows == 1:
+            return s
 
+        zigzag = defaultdict(list)
         y = 1
         next_move = 1
         for letter in s:
