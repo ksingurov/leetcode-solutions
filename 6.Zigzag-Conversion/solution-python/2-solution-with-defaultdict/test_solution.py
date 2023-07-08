@@ -6,20 +6,18 @@ class TestSolution(unittest.TestCase):
         self.sol = Solution()
 
 def create_test_function(inp, exp):
-    s = inp[0]
-    numRows = inp[1]
     def test(self):
-        self.assertEqual(self.sol.convert(s, numRows), exp)
+        self.assertEqual(self.sol.convert(**inp), exp)
     return test
 
 test_data = [
-    (("PAYPALISHIRING", 3), "PAHNAPLSIIGYIR"),
-    (("PAYPALISHIRING", 4), "PINALSIGYAHRPI"),
-    (("A", 1), "A")
+    ({'s': "PAYPALISHIRING", 'numRows': 3}, "PAHNAPLSIIGYIR"),
+    ({'s': "PAYPALISHIRING", 'numRows': 4}, "PINALSIGYAHRPI"),
+    ({'s': "A", 'numRows': 1}, "A")
 ]
 
 for i, (inp, exp) in enumerate(test_data):
-    inp_str = "_".join([str(item) for item in inp])
+    inp_str = "_".join([str(v) for v in inp.values()])
     test_name = f"test_case_{i+1}__input_{inp_str}__output_{exp}"
     test_func = create_test_function(inp, exp)
     setattr(TestSolution, test_name, test_func)
