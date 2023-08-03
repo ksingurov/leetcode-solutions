@@ -1,9 +1,14 @@
 # to display zigzag we still need x coordinate
-
+from typing import DefaultDict, Dict
 from collections import defaultdict
 
 class Solution:
     def convert(self, s: str, numRows: int) -> str:
+        zigzag = Solution.build_zigzag(s, numRows)
+        return "".join([letter for line in zigzag.values() for letter in line.values()])
+
+    @staticmethod
+    def build_zigzag(s: str, numRows: int) -> DefaultDict[int, Dict[int, str]]:
         zigzag = defaultdict(dict)
         movements = {'down': (0, 1), 'up': (1, -1)}
         
@@ -18,38 +23,38 @@ class Solution:
             elif y == 1:
                 next_move = movements['down']
 
-        # new_string = "".join([item[1] for v in zigzag.values() for item in v])
         return zigzag
 
-    # def display_zigzag(self):
 
 
 if __name__ == "__main__":
     s = "PAYPALISHIRING"
     numRows = 3
     sol = Solution()
-    res = sol.convert(s=s, numRows=numRows)
-    # print(res)
+    res = sol.build_zigzag(s, numRows)
+    print(res)
+    res = sol.convert(s, numRows)
+    print(res)
     # help(defaultdict)
 
-    row = 1
-    print(res[row])
-    # numCols = res[row][-1][0] #if zigzag = defaultdict(list)
-    numCols = max(res[row].keys())
-    # for i in range(1, numCols + 1):
-    #     print(res[row].get(i))
-    # print(numCols)
-    # line = [" " for i in range(numCols)]
-    # print(line)
+    # row = 1
+    # print(res[row])
+    # # numCols = res[row][-1][0] #if zigzag = defaultdict(list)
+    # numCols = max(res[row].keys())
+    # # for i in range(1, numCols + 1):
+    # #     print(res[row].get(i))
+    # # print(numCols)
+    # # line = [" " for i in range(numCols)]
+    # # print(line)
 
-    # line = [res[row].get(i, " ") for i in range(1, numCols + 1)]
-    # print(" ".join(line))
+    # # line = [res[row].get(i, " ") for i in range(1, numCols + 1)]
+    # # print(" ".join(line))
 
-    lines = []
-    for row in range(1, numRows + 1):
-        numCols = max(res[row].keys())
-        line = " ".join([res[row].get(i, " ") for i in range(1, numCols + 1)])
-        lines.append(line)
+    # lines = []
+    # for row in range(1, numRows + 1):
+    #     numCols = max(res[row].keys())
+    #     line = " ".join([res[row].get(i, " ") for i in range(1, numCols + 1)])
+    #     lines.append(line)
     
-    for line in lines:
-        print(line)
+    # for line in lines:
+    #     print(line)
