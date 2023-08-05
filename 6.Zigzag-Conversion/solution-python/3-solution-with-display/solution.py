@@ -1,17 +1,29 @@
-# to display zigzag we still need x coordinate
-from typing import DefaultDict, Dict
 from collections import defaultdict
 
 class Solution:
-    def convert(self, s: str, numRows: int) -> str:
+    @staticmethod
+    def convert(s: str, numRows: int) -> str:
+        if numRows == 1:
+            return s
         zigzag = Solution.build_zigzag(s, numRows)
         return "".join([letter for line in zigzag.values() for letter in line.values()])
 
     @staticmethod
-    def build_zigzag(s: str, numRows: int) -> DefaultDict[int, Dict[int, str]]:
+    def display_zigzag(s: str, numRows: int) -> list[str]:
+        if numRows == 1:
+            return " ".join(list(s))
+        zigzag = Solution.build_zigzag(s, numRows)
+        lines = []
+        for row in range(1, numRows + 1):
+            numCols = max(zigzag[row].keys())
+            line = " ".join([zigzag[row].get(i, " ") for i in range(1, numCols + 1)])
+            lines.append(line)
+        return "\n".join(lines) 
+
+    @staticmethod
+    def build_zigzag(s: str, numRows: int) -> defaultdict[int, dict[int, str]]:
         zigzag = defaultdict(dict)
         movements = {'down': (0, 1), 'up': (1, -1)}
-        
         x, y = 1, 1
         next_move = movements['down']
         for letter in s:
@@ -22,39 +34,12 @@ class Solution:
                 next_move = movements['up']
             elif y == 1:
                 next_move = movements['down']
-
         return zigzag
-
 
 
 if __name__ == "__main__":
     s = "PAYPALISHIRING"
-    numRows = 3
-    sol = Solution()
-    res = sol.build_zigzag(s, numRows)
-    print(res)
-    res = sol.convert(s, numRows)
-    print(res)
-    # help(defaultdict)
-
-    # row = 1
-    # print(res[row])
-    # # numCols = res[row][-1][0] #if zigzag = defaultdict(list)
-    # numCols = max(res[row].keys())
-    # # for i in range(1, numCols + 1):
-    # #     print(res[row].get(i))
-    # # print(numCols)
-    # # line = [" " for i in range(numCols)]
-    # # print(line)
-
-    # # line = [res[row].get(i, " ") for i in range(1, numCols + 1)]
-    # # print(" ".join(line))
-
-    # lines = []
-    # for row in range(1, numRows + 1):
-    #     numCols = max(res[row].keys())
-    #     line = " ".join([res[row].get(i, " ") for i in range(1, numCols + 1)])
-    #     lines.append(line)
-    
-    # for line in lines:
-    #     print(line)
+    numRows = 4
+    print(Solution.build_zigzag(s, numRows))
+    print(Solution.convert(s, numRows))
+    print(Solution.display_zigzag(s, numRows))
