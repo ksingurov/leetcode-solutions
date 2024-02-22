@@ -1,17 +1,27 @@
+# TODO: check soluton for string with all characters the same
+
 import collections
 import itertools
 
 class Solution:
     def countKSubsequencesWithMaxBeauty(self, s: str, k: int) -> int:
-        occurances = collections.Counter(s)
+        # all f(x), i.e. number of times each character occurs in the string s
+        occurances = collections.Counter(s) # dict {'character': occurance}
 
-        k_subsequences = itertools.combinations(list(s), k)
-        # TODO: filter out subsequences with different characters
+        # all possible subsequences of length k
+        all_subsequences = itertools.combinations(list(s), k)
+        # to get k-subsequences, keep only those with most common occurance equal to 1
+        # element of k_subsequences is a list of characters
+        k_subsequences = [sub for sub in all_subsequences if collections.Counter(sub).most_common(1)[0][1] == 1]
 
+        # list of all beauties of the string s
         beauties = []
+        # for each k-subsequence calculate sum of occurances in the original string s
+        # since elemenets in k_subsequences in a list, just list of occurances with list comprehensions, and the sum it
         for k_sub in k_subsequences:
             beauties += [sum([occurances[element] for element in k_sub])]
 
+        # return the counter for most common element in the list of beauties
         return collections.Counter(beauties).most_common(1)[0][1]
 
         
