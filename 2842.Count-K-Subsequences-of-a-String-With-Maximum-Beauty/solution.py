@@ -1,6 +1,6 @@
 # 4.06.2025
-# wrong answer, but the idea is correct
-# instead of most common in the end we need to return the count of the maximum beauty
+# Time Limit Exceeded when submitting on LeetCode
+# TODO: optimize the code to avoid TLE
 
 import collections
 import itertools
@@ -27,6 +27,8 @@ class Solution:
             for k_sub in k_subsequences:
                 beauties += [sum([occurances[element] for element in k_sub])]
 
-            # return the counter for most common element in the list of beauties
-            return collections.Counter(beauties).most_common(1)[0][1]
+            # return the counter for biggest element in the list of beauties
+            c = collections.Counter(beauties)
+            m = max(c.keys())
+            return c[m]
     
