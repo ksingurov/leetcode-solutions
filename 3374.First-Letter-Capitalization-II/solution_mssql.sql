@@ -1,4 +1,8 @@
+-- final working version
+-- This solution uses a recursive CTE to capitalize the first letter of each word in the content_text.
+
 WITH
+    -- Recursive CTE to find positions of spaces
     space_positions AS (
         -- Anchor: find first occurrence per content_id
         SELECT
@@ -8,9 +12,7 @@ WITH
             , 'space' AS separator_type
         FROM user_content
         WHERE CHARINDEX(' ', content_text) > 0
-
         UNION ALL
-
         -- Recursive: find next occurrence starting after previous position
         SELECT
             content_id
@@ -20,6 +22,7 @@ WITH
         FROM Space_positions
         WHERE CHARINDEX(' ', content_text, position + 1) > 0
     )
+    -- Recursive CTE to find positions of hyphens
     , hyphen_positions AS (
         -- Anchor: find first occurrence per content_id
         SELECT
@@ -29,9 +32,7 @@ WITH
             , 'hyphen' AS separator_type
         FROM user_content
         WHERE CHARINDEX('-', content_text) > 0
-
         UNION ALL
-
         -- Recursive: find next occurrence starting after previous position
         SELECT
             content_id
@@ -41,6 +42,7 @@ WITH
         FROM Space_positions
         WHERE CHARINDEX('-', content_text, position + 1) > 0
     )
+    -- CTE with positions of lettere to capitalize
     , first_letter_positions AS (
         SELECT
             content_id
@@ -48,31 +50,26 @@ WITH
             , position + 1 AS position
             , separator_type
         FROM space_positions
-        -- OPTION (MAXRECURSION 0);
-
         UNION
-
         SELECT
             content_id
             , content_text
             , position + 1 AS position
             , separator_type
         FROM hyphen_positions
-
         UNION
-
         SELECT
             content_id
             , content_text
             , 1 AS position
             , NULL AS separator_type
         FROM user_content
-        -- OPTION (MAXRECURSION 0)
     )
+    -- CTE to create a position_order for the first letters, will be used in the final recursive CTE
     , first_letter_positions_order AS (
         SELECT
             content_id
-            , LOWER(content_text) AS content_text
+            , content_text
             , position
             , ROW_NUMBER() OVER (PARTITION BY content_id ORDER BY position) AS position_order
             , separator_type            
@@ -80,12 +77,12 @@ WITH
     )
     -- Final recursive CTE
     , converted_text AS (
-        -- Anchor
+        -- Anchor: first iteration with the first letter capitalized
         SELECT
             content_id
             , content_text AS original_text
             , STUFF(
-                content_text, 
+                LOWER(content_text), 
                 position,
                 1,
                 UPPER(SUBSTRING(content_text, position, 1))
@@ -94,7 +91,10 @@ WITH
         FROM first_letter_positions_order
         WHERE position_order = 1      
         UNION ALL
-        -- Recursive
+        -- Recursive:
+        -- capitalize the next letter
+        -- use previous converted_text
+        -- use next position_order (from JOIN) to capitalize the next letter
         SELECT
             converted.content_id
             , converted.original_text
@@ -118,15 +118,6 @@ WITH
             , ROW_NUMBER() OVER (PARTITION BY content_id ORDER BY position_order DESC) AS row_n
         FROM converted_text       
     )
-
--- SELECT * FROM converted_text
--- ORDER BY content_id, position_order
-
-
--- SELECT
---     *
---     , ROW_NUMBER() OVER (PARTITION BY content_id ORDER BY position_order DESC) AS row_n
--- FROM converted_text
 
 SELECT
     content_id
