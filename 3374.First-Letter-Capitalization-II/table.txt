@@ -1,0 +1,19 @@
+| content_id | content_text                    | position | position_order | separator_type |
+| ---------- | ------------------------------- | -------- | -------------- | -------------- |
+| 1          | hello world of sql              | 1        | 1              | null           |
+| 1          | hello world of sql              | 7        | 2              | space          |
+| 1          | hello world of sql              | 13       | 3              | space          |
+| 1          | hello world of sql              | 16       | 4              | space          |
+| 2          | the quick-brown fox             | 1        | 1              | null           |
+| 2          | the quick-brown fox             | 5        | 2              | space          |
+| 2          | the quick-brown fox             | 11       | 3              | hyphen         |
+| 2          | the quick-brown fox             | 17       | 4              | space          |
+| 3          | modern-day data science         | 1        | 1              | null           |
+| 3          | modern-day data science         | 8        | 2              | hyphen         |
+| 3          | modern-day data science         | 12       | 3              | space          |
+| 3          | modern-day data science         | 17       | 4              | space          |
+| 4          | web-based front-end development | 1        | 1              | null           |
+| 4          | web-based front-end development | 5        | 2              | hyphen         |
+| 4          | web-based front-end development | 11       | 3              | space          |
+| 4          | web-based front-end development | 17       | 4              | hyphen         |
+| 4          | web-based front-end development | 21       | 5              | space          |
