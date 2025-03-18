@@ -1,3 +1,8 @@
+-- Page on Microsoft Learn:
+-- Use a recursive common table expression to display multiple levels of recursion:
+-- https://learn.microsoft.com/en-us/sql/t-sql/queries/with-common-table-expression-transact-sql?view=sql-server-ver16#d-use-a-recursive-common-table-expression-to-display-multiple-levels-of-recursion
+
+
 WITH cte_levels AS (
     SELECT
         employee_id
