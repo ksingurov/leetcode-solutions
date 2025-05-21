@@ -1,3 +1,7 @@
+-- first solution
+-- all three aggregates for SUM, AVG, COUNT are calculated
+-- apparetly, the solution is not optimal since it calculates avg which could be calculated as SUM / COUNTq
+
 WITH 
     amount_per_day AS (
         SELECT
