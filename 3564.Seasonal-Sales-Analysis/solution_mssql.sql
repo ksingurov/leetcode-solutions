@@ -30,7 +30,7 @@ WITH
             , category
             , total_quantity
             , total_revenue
-            , ROW_NUMBER() OVER (PARTITION BY season ORDER BY total_revenue DESC) AS row_n
+            , ROW_NUMBER() OVER (PARTITION BY season ORDER BY total_quantity DESC, total_revenue DESC) AS row_n
         FROM sales_group_by_season_category
     )
 
