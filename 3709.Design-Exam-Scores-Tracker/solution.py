@@ -6,7 +6,8 @@ class ExamTracker:
     def record(self, time: int, score: int) -> None:
         self.records.append([time, score])
 
-    # def totalScore(self, startTime: int, endTime: int) -> int:
+    def totalScore(self, startTime: int, endTime: int) -> int:
+        return sum([s for t, s in self.records if startTime <= t <= endTime])
 
 
 
@@ -18,7 +19,7 @@ if __name__ == "__main__":
             if action == "record":
                 obj.record(*data)
             else:
-                pass
+                print(obj.totalScore(*data))
         print(obj.records)
 
     input = [
