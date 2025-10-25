@@ -8,7 +8,7 @@ class ExamTracker:
 
     def totalScore(self, startTime: int, endTime: int) -> int:
         return sum([s for t, s in self.records if startTime <= t <= endTime])
-
+    
 
 
 if __name__ == "__main__":
@@ -19,8 +19,7 @@ if __name__ == "__main__":
             if action == "record":
                 obj.record(*data)
             else:
-                print(obj.totalScore(*data))
-        print(obj.records)
+                print(f"{data}: {obj.totalScore(*data)}")
 
     input = [
         ["ExamTracker", "record", "totalScore", "record", "totalScore", "totalScore", "totalScore", "totalScore"], 
