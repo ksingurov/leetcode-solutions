@@ -12,14 +12,12 @@ class ExamTracker:
         self.times.append(time)
         self.all_cum_scores.append(last_cum + score)
 
+    def get_left_sum(self, t: int):
+        index = bisect_right(self.times, t) - 1
+        return self.all_cum_scores[index] if index >= 0 else 0
+
     def totalScore(self, startTime: int, endTime: int) -> int:
-        start_index = bisect_right(self.times, startTime - 1) - 1
-        start_sum = self.all_cum_scores[start_index] if start_index >= 0 else 0
-
-        end_index = bisect_right(self.times, endTime) - 1
-        end_sum = self.all_cum_scores[end_index] if end_index >= 0 else 0
-
-        return end_sum - start_sum
+        return self.get_left_sum(endTime) - self.get_left_sum(startTime - 1)
 
 
 
@@ -32,12 +30,12 @@ if __name__ == "__main__":
                 obj.record(*data)
             else:
                 print(f"{data}: {obj.totalScore(*data)}")
-        # print(obj.records)
 
     input = [
         ["ExamTracker", "record", "totalScore", "record", "totalScore", "totalScore", "totalScore", "totalScore"], 
         [[], [1, 98], [1, 1], [5, 99], [1, 3], [1, 5], [3, 4], [2, 5]]
     ]
 
-    # obj = ExamTracker()
+    expected = [None, None, 98, None, 98, 197, 0, 99]
+
     tester(input=input)
