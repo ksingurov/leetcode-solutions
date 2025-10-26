@@ -1,30 +1,25 @@
+from bisect import bisect_right
+
+
 class ExamTracker:
 
     def __init__(self):
-        # self.records = {-1: 0}
-        # self.last_time = -1
-        self.records = {}
-        self.last_time = 0
+        self.times = []
+        self.all_cum_scores = []
 
     def record(self, time: int, score: int) -> None:
-        # self.records[time] = self.records[self.last_time] + score
-        self.records[time] = self.records.get(self.last_time, 0) + score
-        self.last_time = time
+        last_cum = self.all_cum_scores[-1] if self.all_cum_scores else 0
+        self.times.append(time)
+        self.all_cum_scores.append(last_cum + score)
 
     def totalScore(self, startTime: int, endTime: int) -> int:
-        def get_left(time) -> int:
-            step_left = 0
-            while self.records.get(time - step_left) is None and time - step_left > 0:
-                step_left += 1
-            return self.records.get(time - step_left, 0)
+        start_index = bisect_right(self.times, startTime - 1) - 1
+        start_sum = self.all_cum_scores[start_index] if start_index >= 0 else 0
 
-        start_score = get_left(startTime - 1)
-        # print(f"start_score: {start_score}")
-        end_score = get_left(endTime)
-        # print(f"end_score: {end_score}")
+        end_index = bisect_right(self.times, endTime) - 1
+        end_sum = self.all_cum_scores[end_index] if end_index >= 0 else 0
 
-
-        return end_score - start_score
+        return end_sum - start_sum
 
 
 
@@ -35,7 +30,6 @@ if __name__ == "__main__":
             print(f"method: {action}, data: {data}")
             if action == "record":
                 obj.record(*data)
-                print(f"self.records: {obj.records}")
             else:
                 print(f"{data}: {obj.totalScore(*data)}")
         # print(obj.records)
